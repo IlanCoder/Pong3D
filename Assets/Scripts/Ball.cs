@@ -1,29 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody))]
 public class Ball : MonoBehaviour
 {
     [SerializeField] float _speed;
-    Rigidbody _rb;
     Vector3 _direction;
+    Rigidbody _rb;
 
-    //HOLI RAVIOLI
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _direction = Vector3.forward;
-    }
-
-    private void Update()
-    {
+        _direction.Normalize();
+        _rb.velocity = _direction * _speed;
     }
 
     void FixedUpdate() {
-        Vector3 dir = _direction * _speed * Time.fixedDeltaTime;
-        dir.y = _rb.velocity.y;
-        _rb.velocity = dir;
+        _direction = _rb.velocity;
+        _direction.Normalize();
+        _direction *= _speed * Time.fixedDeltaTime;
+        _direction.y = _rb.velocity.y;
+        _rb.velocity = _direction;
     }
 }
