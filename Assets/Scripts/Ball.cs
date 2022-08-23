@@ -8,19 +8,22 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] float _speed;
     Rigidbody _rb;
+    Vector3 _direction;
+
     //HOLI RAVIOLI
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _direction = Vector3.forward;
     }
- 
-    void Update()
+
+    private void Update()
     {
-        
     }
 
     void FixedUpdate() {
-        _rb.velocity = _speed * Time.fixedDeltaTime * Vector3.right;
+        Vector3 dir = _direction * _speed * Time.fixedDeltaTime;
+        dir.y = _rb.velocity.y;
+        _rb.velocity = dir;
     }
-
 }
