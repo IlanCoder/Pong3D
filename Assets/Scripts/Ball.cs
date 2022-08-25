@@ -9,6 +9,7 @@ using Random = System.Random;
 public class Ball : MonoBehaviour
 {
     [SerializeField] float _speed;
+    [SerializeField] Transform _initPos;
     Vector3 _direction;
     Rigidbody _rb;
 
@@ -26,5 +27,13 @@ public class Ball : MonoBehaviour
         _direction *= _speed * Time.fixedDeltaTime;
         _direction.y = _rb.velocity.y;
         _rb.velocity = _direction;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Goal"))
+        {
+            transform.position = _initPos.position;
+        }
     }
 }
