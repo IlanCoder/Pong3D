@@ -7,12 +7,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
+    [Header("Basic Stats")]
     [SerializeField, Min(0.1F)] float _speed;
     [SerializeField, Min(0.1F)] float _jumpForce;
     [SerializeField, Min(0.5F)] float _jumpCD;
     bool _jumping = false;
     Rigidbody _rb;
     Vector3 _movement;
+
+    [Header("Invert Controls Stats")]
+    [SerializeField, Min(5F)] float _invertControlsDuration;
+    bool _inverted = false;
 
     void Start()
     {
@@ -49,5 +54,25 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_jumpCD);
         _jumping = false;
+    }
+
+    public void InvertControls()
+    {
+        if (!_inverted)
+        {
+            _speed *= -1;
+            _inverted = true;
+            StartCoroutine("WaitForInvertDuration");
+            return;
+        }
+        StopCoroutine("WaitForInvertDuration");
+        StartCoroutine("WaitForInvertDuration");
+    }
+
+    IEnumerator WaitForInvertDuration()
+    {
+        yield return new WaitForSeconds(_invertControlsDuration);
+        _inverted = false;
+        _speed *= -1;
     }
 }

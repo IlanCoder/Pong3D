@@ -8,6 +8,7 @@ using Random = System.Random;
 [RequireComponent(typeof(Rigidbody))]
 public class Ball : MonoBehaviour
 {
+    [Header("Basic Stats")]
     [SerializeField] float _speed;
     [SerializeField] Transform _initPos;
     Vector3 _direction;
